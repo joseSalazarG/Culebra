@@ -16,6 +16,7 @@
     <fxgl.version>11.13</fxgl.version>
   </properties>
 
+  <!-- FXGL Plugin -->
   <dependencies>
     <dependency>
       <groupId>com.github.almasb</groupId>
@@ -24,4 +25,23 @@
     </dependency>
   </dependencies>
 
+  <!-- Maven Plugins -->
+  <dependency>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-deploy-plugin</artifactId>
+    <version>${maven-deploy-plugin}</version>
+    <type>maven-plugin</type>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-install-plugin</artifactId>
+    <version>${maven-install-plugin}</version>
+    <type>maven-plugin</type>
+  </dependency>
+  <dependency>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-site-plugin</artifactId>
+    <version>${maven-site-plugin}</version>
+    <type>maven-plugin</type>
+  </dependency>
 </project>
