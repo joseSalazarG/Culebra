@@ -40,3 +40,4 @@ build/
 logs
 system
 mvnw
+mvnw.cmd
