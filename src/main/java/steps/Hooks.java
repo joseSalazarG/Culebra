@@ -45,11 +45,13 @@ public class Hooks extends GameApplication {
 
     @Override
     protected void initGame() {
+
         GameWorld mapa = FXGL.getGameWorld();
+
         jugador = FXGL.entityBuilder()
                 .type(EntityType.JUGADOR)
                 .at(500, 150)
-                .viewWithBBox(texture("neko.png", 100, 100))
+                .viewWithBBox(texture("neko.png", 80, 80))
                 .collidable()
                 .with(new AutoRotationComponent())
                 .build();
@@ -58,7 +60,7 @@ public class Hooks extends GameApplication {
         comida = FXGL.entityBuilder()
                 .type(EntityType.COMIDA)
                 .at(200, 150)
-                .viewWithBBox(texture("sq.png", 80, 80))
+                .viewWithBBox(texture("sq.png", 60, 60))
                 .collidable()
                 .with(new AutoRotationComponent())
                 .build();
