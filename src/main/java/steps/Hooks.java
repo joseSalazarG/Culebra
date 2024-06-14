@@ -109,19 +109,18 @@ public class Hooks extends GameApplication {
     @Override
     protected void initPhysics() {
         //colision con comida
-        Sound sound = getAssetLoader().loadSound("necoarc.mp3");
-        Sound sound2 = getAssetLoader().loadSound("muerte.mp3");
+        Sound comer = getAssetLoader().loadSound("necoarc.mp3");
+        Sound morir = getAssetLoader().loadSound("muerte.mp3");
         FXGL.onCollisionBegin(EntityType.JUGADOR, EntityType.COMIDA, (jugador, comida) -> {
             comida.setPosition(FXGLMath.random(0, 1300 - 600), FXGLMath.random(0, 1300 - 600));
-            getAudioPlayer().playSound(sound);
-
+            getAudioPlayer().playSound(comer);
         });
        
         EntityType[] muros = {EntityType.WALL, EntityType.WALL2, EntityType.WALL3, EntityType.WALL4};
 
         for (EntityType muro : muros) {
             FXGL.onCollisionBegin(EntityType.JUGADOR, muro, (jugador, wall) -> {
-                getAudioPlayer().playSound(sound2);
+                getAudioPlayer().playSound(morir);
                 vidas--;
                 jugador.setPosition(500,150);
                 if (vidas == 0) {
