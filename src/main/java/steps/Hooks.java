@@ -29,6 +29,7 @@ public class Hooks extends GameApplication {
     private final int altoPantalla = 700;
     private final int anchoJugador = 40;
     private final int altoJugador = 40;
+    int vidas = 5;
 
     public enum EntityType {
         JUGADOR, COMIDA, WALL, WALL2, WALL3, WALL4
@@ -83,8 +84,8 @@ public class Hooks extends GameApplication {
         //abajo
         wall3 = FXGL.entityBuilder()
                 .type(EntityType.WALL)
-                .at(0, 650)
-                .viewWithBBox(new Rectangle(1400, 150, javafx.scene.paint.Color.RED))
+                .at(0, 670)
+                .viewWithBBox(new Rectangle(1400, 50, javafx.scene.paint.Color.RED))
                 .collidable()
                 .build();
 
@@ -108,37 +109,27 @@ public class Hooks extends GameApplication {
     @Override
     protected void initPhysics() {
         //colision con comida
-        Sound sound2 = getAssetLoader().loadSound("ko.mp3");
-        Sound sound = getAssetLoader().loadSound("muerte.mp3");
+        Sound sound = getAssetLoader().loadSound("necoarc.mp3");
+        Sound sound2 = getAssetLoader().loadSound("muerte.mp3");
         FXGL.onCollisionBegin(EntityType.JUGADOR, EntityType.COMIDA, (jugador, comida) -> {
             comida.setPosition(FXGLMath.random(0, 1300 - 600), FXGLMath.random(0, 1300 - 600));
-            //suena bien aqui
-            //
-            // getAudioPlayer().playSound(sound);
-        });
+            getAudioPlayer().playSound(sound);
 
-        //colision con muro
-        FXGL.onCollisionBegin(EntityType.JUGADOR, EntityType.WALL, (jugador, wall) -> {
-            getAudioPlayer().playSound(sound);
         });
-        FXGL.onCollisionBegin(EntityType.JUGADOR, EntityType.WALL2, (jugador, wall2) -> {
-            getAudioPlayer().playSound(sound);
-        });
-        FXGL.onCollisionBegin(EntityType.JUGADOR, EntityType.WALL3, (jugador, wall3) -> {
-            getAudioPlayer().playSound(sound);
-        });
-        FXGL.onCollisionBegin(EntityType.JUGADOR, EntityType.WALL4, (jugador, wall4) -> {
+       
+        EntityType[] muros = {EntityType.WALL, EntityType.WALL2, EntityType.WALL3, EntityType.WALL4};
 
-            getAudioPlayer().playSound(sound);
-        });
-
+        for (EntityType muro : muros) {
+            FXGL.onCollisionBegin(EntityType.JUGADOR, muro, (jugador, wall) -> {
+                getAudioPlayer().playSound(sound2);
+                vidas--;
+                jugador.setPosition(500,150);
+                if (vidas == 0) {
+                    jugador.removeFromWorld();
+                }
+            });
+        }
     }
-
-    public void morir() {
-        Sound sound = getAssetLoader().loadSound("ko.wav");
-        getAudioPlayer().playSound(sound);
-    }
-
 
     //mueve al jugador
     @Override
@@ -152,9 +143,6 @@ public class Hooks extends GameApplication {
                 if (jugador.getY() > 0) {
                     jugador.translateY(-2.5); // se mueve arriba
                 }
-                if (jugador.getY()<=0) {
-                    jugador.removeFromWorld();
-                }
             }
         }, KeyCode.UP);
 
@@ -163,10 +151,6 @@ public class Hooks extends GameApplication {
             protected void onAction() {
                 if (jugador.getY() < altoPantalla-altoJugador) {
                     jugador.translateY(2.5); // se mueve abajo
-                }
-                if (jugador.getY()>=650) {
-                    jugador.removeFromWorld();
-                    
                 }
             }
         }, KeyCode.DOWN);
@@ -177,10 +161,6 @@ public class Hooks extends GameApplication {
                 if (jugador.getX() > 0) {
                     jugador.translateX(-2.5); // se mueve a la izquierda
                 }
-                if (jugador.getX()<=0) {
-                    jugador.removeFromWorld();
-                    
-                }
             }
         }, KeyCode.LEFT);
 
@@ -189,10 +169,6 @@ public class Hooks extends GameApplication {
             protected void onAction() {
                 if (jugador.getX() < anchoPantalla-anchoJugador) {
                     jugador.translateX(2.5); // se mueve a la derecha
-                }
-                if (jugador.getX()>= 1350) {
-                    jugador.removeFromWorld(); 
-                    
                 }
             }
         }, KeyCode.RIGHT);
