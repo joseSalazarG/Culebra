@@ -30,6 +30,7 @@ public class Hooks extends GameApplication {
     private final int anchoJugador = 40;
     private final int altoJugador = 40;
     int vidas = 5;
+    private final CulebritaFactory culebritaFactory = new CulebritaFactory();
 
     public enum EntityType {
         JUGADOR, COMIDA, WALL, WALL2, WALL3, WALL4
@@ -48,6 +49,7 @@ public class Hooks extends GameApplication {
     protected void initGame() {
 
         GameWorld mapa = FXGL.getGameWorld();
+        mapa.addEntityFactory(culebritaFactory);
 
         jugador = FXGL.entityBuilder()
                 .type(EntityType.JUGADOR)
