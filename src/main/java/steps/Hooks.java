@@ -72,30 +72,30 @@ public class Hooks extends GameApplication {
         //derecha
         wall = FXGL.entityBuilder()
                 .type(EntityType.WALL)
-                .at(1350, 0)
-                .viewWithBBox(new Rectangle(200, 700, javafx.scene.paint.Color.RED))
+                .at(1270, 70)
+                .viewWithBBox(texture("spikes4.png", 150, 550))
                 .collidable()
                 .build();
         //arriba
         wall2 = FXGL.entityBuilder()
                 .type(EntityType.WALL)
-                .at(0, 0)
-                .viewWithBBox(new Rectangle(1400, 30, javafx.scene.paint.Color.RED))
+                .at(100, -5)
+                .viewWithBBox(texture("spikes3.png", 1200, 100))
                 .collidable()
                 .build();
         //abajo
         wall3 = FXGL.entityBuilder()
                 .type(EntityType.WALL)
-                .at(0, 670)
-                .viewWithBBox(new Rectangle(1400, 50, javafx.scene.paint.Color.RED))
+                .at(100, 605)
+                .viewWithBBox(texture("spikes2.png", 1200, 100))
                 .collidable()
                 .build();
 
         //izquierda
         wall4 = FXGL.entityBuilder()
                 .type(EntityType.WALL)
-                .at(0, 0)
-                .viewWithBBox(new Rectangle(50, 700, javafx.scene.paint.Color.RED))
+                .at(-40, 80)
+                .viewWithBBox(texture("spikes.png", 170, 550))
                 .collidable()
                 .build();
 
@@ -114,7 +114,7 @@ public class Hooks extends GameApplication {
         Sound comer = getAssetLoader().loadSound("necoarc.mp3");
         Sound morir = getAssetLoader().loadSound("muerte.mp3");
         FXGL.onCollisionBegin(EntityType.JUGADOR, EntityType.COMIDA, (jugador, comida) -> {
-            comida.setPosition(FXGLMath.random(0, 1300 - 600), FXGLMath.random(0, 1300 - 600));
+            comida.setPosition(FXGLMath.random(90, 1250), FXGLMath.random(30, 600));
             getAudioPlayer().playSound(comer);
         });
        
