@@ -15,7 +15,6 @@ import com.almasb.fxgl.input.Input;
 import com.almasb.fxgl.input.UserAction;
 
 import javafx.scene.input.KeyCode;
-import javafx.scene.shape.Rectangle;
 public class Hooks extends GameApplication {
 
     //private Serpiente jugador;
