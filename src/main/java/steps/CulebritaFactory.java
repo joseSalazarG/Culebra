@@ -32,9 +32,16 @@ public class CulebritaFactory implements EntityFactory {
     public Entity agregarCola(SpawnData data) {
         return entityBuilder(data)
                 .type(EntityType.COLA)
-                .viewWithBBox(texture("neko.png", 80, 80))
+                .viewWithBBox(texture("vines.png", 80, 80))
                 .collidable()
                 .with(new AutoRotationComponent())
+                .build();
+    }
+
+    @Spawns("bosque")
+    public Entity generarBosque(SpawnData data) {
+        return entityBuilder(data)
+                .viewWithBBox("bosque.jpg")
                 .build();
     }
 

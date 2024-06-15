@@ -14,7 +14,7 @@ public class CulebritaLogic extends Component {
     // head - body - ...
     private List<Entity> bodyParts = new ArrayList<>();
 
-    private Point2D direction = new Point2D(1, 0);
+    //private Point2D direction = new Point2D(1, 0);
 
     @Override
     public void onAdded() {
@@ -26,7 +26,7 @@ public class CulebritaLogic extends Component {
     @Override
     public void onUpdate(double tpf) {
         entity.setProperty("prevPos", entity.getPosition());
-        entity.translate(direction.multiply(32));
+        //entity.translate(50,50);
 
         for (int i = 1; i < bodyParts.size(); i++) {
             var prevPart = bodyParts.get(i - 1);
@@ -45,7 +45,7 @@ public class CulebritaLogic extends Component {
 
         Point2D pos = lastBodyPart.getObject("prevPos");
 
-        var body = spawn("cola", pos);
+        var body = spawn("cola");
 
         bodyParts.add(body);
     }

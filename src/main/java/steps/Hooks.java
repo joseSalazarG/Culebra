@@ -27,8 +27,6 @@ public class Hooks extends GameApplication {
     private final int anchoJugador = 40;
     private final int altoJugador = 40;
     int vidas = 5;
-    Sound comer = getAssetLoader().loadSound("necoarc.mp3");
-    Sound morir = getAssetLoader().loadSound("muerte.mp3");
     private final CulebritaFactory culebritaFactory = new CulebritaFactory();
 
     @Override
@@ -37,6 +35,7 @@ public class Hooks extends GameApplication {
         settings.setHeight(altoPantalla);
         settings.setTitle("Culebrita");
         settings.setVersion("0.1");
+        settings.setTicksPerSecond(50);
         //settings.setDefaultLanguage(Language.SPANISH);
     }
 
@@ -45,17 +44,24 @@ public class Hooks extends GameApplication {
 
         GameWorld mapa = FXGL.getGameWorld();
         mapa.addEntityFactory(culebritaFactory);
-        this.jugador = spawn("jugador", 500, 150);
-        spawn("comida");
+
+        spawn("bosque");
         spawn("muroSuperior");
         spawn("muroInferior");
         spawn("muroIzquierdo");
         spawn("muroDerecho");
+
+        this.jugador = spawn("jugador", 500, 150);
+        spawn("comida");
     }
 
     //colision
     @Override
     protected void initPhysics() {
+
+        Sound comer = getAssetLoader().loadSound("necoarc.mp3");
+        Sound morir = getAssetLoader().loadSound("muerte.mp3");
+
         //colision con comida
         FXGL.onCollisionBegin(JUGADOR, COMIDA, (jugador, comida) -> {
             comida.setPosition(FXGLMath.random(90, 1250), FXGLMath.random(30, 600));
