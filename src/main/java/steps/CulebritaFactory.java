@@ -7,6 +7,8 @@ import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import component.CulebritaLogic;
 
+import java.util.List;
+
 import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
 import static com.almasb.fxgl.dsl.FXGL.texture;
 
@@ -17,13 +19,26 @@ public class CulebritaFactory implements EntityFactory {
         JUGADOR, COLA, COMIDA, MURO
     }
 
+    // create a list of entities
+    private List<Entity> bodyParts;
+
+    @Spawns("cuerpito")
+    public Entity crearCuerpo(SpawnData data) {
+        return entityBuilder(data)
+                .type(EntityType.COLA)
+                .viewWithBBox(texture("neko.png", 40, 40))
+                .collidable()
+                .build();
+
+    }
+
     @Spawns("jugador")
     public Entity nuevoJugador(SpawnData data) {
         return entityBuilder(data)
                 .type(EntityType.JUGADOR)
-                .viewWithBBox(texture("neko.png", 80, 80))
+                .viewWithBBox(texture("neko.png", 40, 40))
                 .collidable()
-                .with(new AutoRotationComponent())
+                //.with(new AutoRotationComponent())
                 .with(new CulebritaLogic())
                 .build();
     }
@@ -50,7 +65,7 @@ public class CulebritaFactory implements EntityFactory {
         return entityBuilder(data)
                 .type(EntityType.COMIDA)
                 .at(200, 150)
-                .viewWithBBox(texture("sq.png", 60, 60))
+                .viewWithBBox(texture("sq.png", 30, 30))
                 .collidable()
                 .with(new AutoRotationComponent())
                 .build();
@@ -60,7 +75,7 @@ public class CulebritaFactory implements EntityFactory {
     public Entity crearMuroSuperior(SpawnData data) {
         return entityBuilder(data)
                 .type(EntityType.MURO)
-                .at(100, -5)
+                .at(100, -40)
                 .viewWithBBox(texture("muro_Sup.png", 1200, 100))
                 .collidable()
                 .build();
@@ -70,7 +85,7 @@ public class CulebritaFactory implements EntityFactory {
     public Entity crearMuroInferior(SpawnData data) {
         return entityBuilder(data)
                 .type(EntityType.MURO)
-                .at(100, 605)
+                .at(100, 630)
                 .viewWithBBox(texture("muro_Inf.png", 1200, 100))
                 .collidable()
                 .build();
@@ -80,7 +95,7 @@ public class CulebritaFactory implements EntityFactory {
     public Entity crearMuroIzq(SpawnData data) {
         return entityBuilder(data)
                 .type(EntityType.MURO)
-                .at(-40, 80)
+                .at(-60, 80)
                 .viewWithBBox(texture("muro_Izq.png", 150, 550))
                 .collidable()
                 .build();
@@ -90,7 +105,7 @@ public class CulebritaFactory implements EntityFactory {
    public Entity crearMuroDer(SpawnData data) {
         return entityBuilder(data)
                 .type(EntityType.MURO)
-                .at(1285, 70)
+                .at(1300, 70)
                 .viewWithBBox(texture("muro_Der.png", 150, 550))
                 .collidable()
                 .build();
