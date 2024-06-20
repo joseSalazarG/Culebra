@@ -47,7 +47,7 @@ public class CulebritaFactory implements EntityFactory {
     public Entity agregarCola(SpawnData data) {
         return entityBuilder(data)
                 .type(EntityType.COLA)
-                .viewWithBBox(texture("vines.png", 80, 80))
+                .viewWithBBox(texture("neko.png", 40, 40))
                 .collidable()
                 .with(new AutoRotationComponent())
                 .build();
@@ -85,7 +85,7 @@ public class CulebritaFactory implements EntityFactory {
     public Entity crearMuroInferior(SpawnData data) {
         return entityBuilder(data)
                 .type(EntityType.MURO)
-                .at(100, 630)
+                .at(100, 640)
                 .viewWithBBox(texture("muro_Inf.png", 1200, 100))
                 .collidable()
                 .build();
@@ -105,7 +105,7 @@ public class CulebritaFactory implements EntityFactory {
    public Entity crearMuroDer(SpawnData data) {
         return entityBuilder(data)
                 .type(EntityType.MURO)
-                .at(1300, 70)
+                .at(1320, 70)
                 .viewWithBBox(texture("muro_Der.png", 150, 550))
                 .collidable()
                 .build();

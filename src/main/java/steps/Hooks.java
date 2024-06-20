@@ -36,7 +36,7 @@ public class Hooks extends GameApplication {
         settings.setHeight(altoPantalla);
         settings.setTitle("Culebrita");
         settings.setVersion("0.1");
-        settings.setTicksPerSecond(50);
+        settings.setTicksPerSecond(8); //fps
         //settings.setDefaultLanguage(Language.SPANISH);
     }
 
@@ -67,7 +67,7 @@ public class Hooks extends GameApplication {
         FXGL.onCollisionBegin(JUGADOR, COMIDA, (jugador, comida) -> {
             comida.setPosition(FXGLMath.random(90, 1250), FXGLMath.random(30, 600));
             getAudioPlayer().playSound(comer);
-            jugador.getComponent(CulebritaLogic.class).crecer(jugador.getComponent(CulebritaLogic.class).ubicacionAnterior);
+            jugador.getComponent(CulebritaLogic.class).grow();
         });
 
         FXGL.onCollisionBegin(JUGADOR, MURO, (jugador, muro) -> {
@@ -82,38 +82,22 @@ public class Hooks extends GameApplication {
 
     //mueve al jugador
     @Override
-    protected void initInput() {
+    protected void initInput() {;
 
-        onKeyDown(KeyCode.LEFT, "Mover hacia la izquierda" ,() -> {
-            if (jugador.getX() > 0) {
-                jugador.translateX(-40); // se mueve a la izquierda
-                jugador.setRotation(180);
-                jugador.getComponent(CulebritaLogic.class).guardarUbicacion();
-            }
+        onKey(KeyCode.LEFT, "Mover hacia la izquierda" ,() -> {
+            jugador.getComponent(CulebritaLogic.class).izquierda();
         });
 
-        onKeyDown(KeyCode.RIGHT, "Mover hacia la derecha", () -> {
-            if (jugador.getX() < anchoPantalla - anchoJugador) {
-                jugador.translateX(40); // se mueve a la derecha
-                jugador.setRotation(0);
-                jugador.getComponent(CulebritaLogic.class).guardarUbicacion();
-            }
+        onKey(KeyCode.RIGHT, "Mover hacia la derecha", () -> {
+            jugador.getComponent(CulebritaLogic.class).derecha();
         });
 
-        onKeyDown(KeyCode.UP, "Mover hacia arriba", () -> {
-            if (jugador.getY() > 0) {
-                jugador.translateY(-40); // se mueve hacia arriba
-                jugador.setRotation(270);
-                jugador.getComponent(CulebritaLogic.class).guardarUbicacion();
-            }
+        onKey(KeyCode.UP, "Mover hacia arriba", () -> {
+            jugador.getComponent(CulebritaLogic.class).arriba();
         });
 
-        onKeyDown(KeyCode.DOWN, "Mover hacia abajo", () -> {
-            if (jugador.getY() < altoPantalla - altoJugador) {
-                jugador.translateY(40); // se mueve hacia abajo
-                jugador.setRotation(90);
-                jugador.getComponent(CulebritaLogic.class).guardarUbicacion();
-            }
+        onKey(KeyCode.DOWN, "Mover hacia abajo", () -> {
+            jugador.getComponent(CulebritaLogic.class).abajo();
         });
     }
 }
