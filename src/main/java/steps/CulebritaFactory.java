@@ -1,16 +1,14 @@
 package steps;
 
+import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
+import static com.almasb.fxgl.dsl.FXGL.texture;
 import com.almasb.fxgl.dsl.components.AutoRotationComponent;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
+
 import component.CulebritaLogic;
-
-import java.util.List;
-
-import static com.almasb.fxgl.dsl.FXGL.entityBuilder;
-import static com.almasb.fxgl.dsl.FXGL.texture;
 
 public class CulebritaFactory implements EntityFactory {
 
@@ -20,7 +18,7 @@ public class CulebritaFactory implements EntityFactory {
     }
 
     // create a list of entities
-    private List<Entity> bodyParts;
+
 
     @Spawns("cuerpito")
     public Entity crearCuerpo(SpawnData data) {

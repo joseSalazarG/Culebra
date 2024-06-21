@@ -5,18 +5,18 @@ import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.audio.Sound;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.dsl.FXGL;
+import static com.almasb.fxgl.dsl.FXGL.getAssetLoader;
+import static com.almasb.fxgl.dsl.FXGL.getAudioPlayer;
+import static com.almasb.fxgl.dsl.FXGL.onKey;
+import static com.almasb.fxgl.dsl.FXGL.spawn;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.GameWorld;
-import com.almasb.fxgl.input.Input;
-import com.almasb.fxgl.input.UserAction;
 
 import component.CulebritaLogic;
 import javafx.scene.input.KeyCode;
-import javafx.util.Pair;
-
-import static com.almasb.fxgl.dsl.FXGL.*;
-import static com.almasb.fxgl.dsl.FXGL.onKeyDown;
-import static steps.CulebritaFactory.EntityType.*;
+import static steps.CulebritaFactory.EntityType.COMIDA;
+import static steps.CulebritaFactory.EntityType.JUGADOR;
+import static steps.CulebritaFactory.EntityType.MURO;
 
 public class Hooks extends GameApplication {
 
@@ -24,9 +24,8 @@ public class Hooks extends GameApplication {
     private Entity jugador;
     private final int anchoPantalla = 1400;
     private final int altoPantalla = 700;
-    private final int anchoJugador = 40;
-    private final int altoJugador = 40;
-    int vidas = 5;
+    // private final int anchoJugador = 40;
+    // private final int altoJugador = 40;
 
     private final CulebritaFactory culebritaFactory = new CulebritaFactory();
 
@@ -36,7 +35,7 @@ public class Hooks extends GameApplication {
         settings.setHeight(altoPantalla);
         settings.setTitle("Culebrita");
         settings.setVersion("0.1");
-        settings.setTicksPerSecond(8); //fps
+        settings.setTicksPerSecond(7); //fps
         //settings.setDefaultLanguage(Language.SPANISH);
     }
 
@@ -65,24 +64,21 @@ public class Hooks extends GameApplication {
 
         //colision con comida
         FXGL.onCollisionBegin(JUGADOR, COMIDA, (jugador, comida) -> {
-            comida.setPosition(FXGLMath.random(90, 1250), FXGLMath.random(30, 600));
+            comida.setPosition(FXGLMath.random(90, 1250), FXGLMath.random(60, 600));
             getAudioPlayer().playSound(comer);
             jugador.getComponent(CulebritaLogic.class).grow();
         });
 
         FXGL.onCollisionBegin(JUGADOR, MURO, (jugador, muro) -> {
             getAudioPlayer().playSound(morir);
-            vidas--;
-            jugador.setPosition(500,150);
-            if (vidas == 0) {
-                jugador.removeFromWorld();
-            }
+            //morir, respawnear, eliminar cola
+            jugador.getComponent(CulebritaLogic.class).die();
         });
     }
 
     //mueve al jugador
     @Override
-    protected void initInput() {;
+    protected void initInput() {
 
         onKey(KeyCode.LEFT, "Mover hacia la izquierda" ,() -> {
             jugador.getComponent(CulebritaLogic.class).izquierda();
