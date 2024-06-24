@@ -56,6 +56,10 @@ public class CulebritaLogic extends Component {
         direction = new Point2D(-1, 0);
     }
 
+    public Point2D returnDirection() {
+        return direction;
+    }
+
      public void die() {
         // clean up body parts, apart from head
         bodyParts.stream()

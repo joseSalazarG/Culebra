@@ -69,6 +69,17 @@ public class CulebritaFactory implements EntityFactory {
                 .build();
    }
 
+   @Spawns("comida2")
+   public Entity generarComida2(SpawnData data) {
+        return entityBuilder(data)
+                .type(EntityType.COMIDA)
+                .at(300, 300)
+                .viewWithBBox(texture("sq.png", 30, 30))
+                .collidable()
+                .with(new AutoRotationComponent())
+                .build();
+   }
+
     @Spawns("muroSuperior")
     public Entity crearMuroSuperior(SpawnData data) {
         return entityBuilder(data)
