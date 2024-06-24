@@ -86,6 +86,8 @@ public class Hooks extends GameApplication {
             getAudioPlayer().playSound(morir);
             //morir, respawnear, eliminar cola
             jugador.getComponent(CulebritaLogic.class).die();
+            puntos = 0;
+            puntosText.setText("Puntos: " + puntos);
         });
     }
 
