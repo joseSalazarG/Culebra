@@ -3,22 +3,27 @@ package component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.almasb.fxgl.dsl.FXGL.spawn;
+import com.almasb.fxgl.core.serialization.Bundle;
 import com.almasb.fxgl.entity.Entity;
+import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 
+import com.almasb.fxgl.multiplayer.MultiplayerService;
+import com.almasb.fxgl.net.Connection;
 import javafx.geometry.Point2D;
+
+import static com.almasb.fxgl.dsl.FXGL.*;
 
 public class CulebritaLogic extends Component {
 
     public Point2D direction = new Point2D(1, 0);
 
-    // head - body - ... - body
-    private final List<Entity> bodyParts = new ArrayList<>();
+    // cabeza - cola - ... - cola
+    private final List<Entity> cuerpo = new ArrayList<>();
 
     @Override
     public void onAdded() {
-        bodyParts.add(entity);
+        cuerpo.add(entity);
 
         entity.setProperty("prevPos", entity.getPosition());
     }
@@ -29,9 +34,9 @@ public class CulebritaLogic extends Component {
         // separacion de los gatos y cantidad de pixeles que se mueven
         entity.translate(direction.multiply(40));
 
-        for (int i = 1; i < bodyParts.size(); i++) {
-            var prevPart = bodyParts.get(i - 1);
-            var part = bodyParts.get(i);
+        for (int i = 1; i < cuerpo.size(); i++) {
+            var prevPart = cuerpo.get(i - 1);
+            var part = cuerpo.get(i);
 
             Point2D prevPos = prevPart.getObject("prevPos");
 
@@ -60,35 +65,31 @@ public class CulebritaLogic extends Component {
         return direction;
     }
 
-     public void die() {
-        // clean up body parts, apart from head
-        bodyParts.stream()
+     public void respawnear() {
+        // remueve todos los gatos menos la cabeza del mundo
+        cuerpo.stream()
                 .skip(1)
                 .forEach(Entity::removeFromWorld);
 
-        bodyParts.clear();
-        bodyParts.add(entity);
-
+        // ahora eliminamos los gatos de la lista
+        cuerpo.clear();
+        // y agregamos la cabeza
+        cuerpo.add(entity);
+        // y la movemos a la posicion inicial de nuevo
+        // TODO: cambiar a la posicion inicial
         entity.setPosition(150, 150);
     }
 
-    public void grow() {
+    public void crecer(SpawnData data, Connection<Bundle> conexion) {
 
-        var lastBodyPart = bodyParts.get(bodyParts.size() - 1);
+        //var lastBodyPart = cuerpo.get(cuerpo.size() - 1);
+        //data.put("ubicacion", lastBodyPart.getPosition());
 
-        Point2D pos = lastBodyPart.getObject("prevPos");
-
-        var body = spawn("cola", pos);
-
+        var body = spawn("cola", data);
         body.translate(direction.multiply(-40));
 
-        bodyParts.add(body);
-    }
+        //getService(MultiplayerService.class).spawn(conexion, body, "cola");
 
-    public void log() {
-        bodyParts.forEach(part -> {
-            System.out.println(part.getPosition());
-            System.out.println(part.getObject("prevPos").toString());
-        });
+        cuerpo.add(body);
     }
 }
