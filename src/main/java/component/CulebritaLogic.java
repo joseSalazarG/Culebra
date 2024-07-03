@@ -4,15 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.almasb.fxgl.core.serialization.Bundle;
+import static com.almasb.fxgl.dsl.FXGL.spawn;
 import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
-
-import com.almasb.fxgl.multiplayer.MultiplayerService;
 import com.almasb.fxgl.net.Connection;
-import javafx.geometry.Point2D;
 
-import static com.almasb.fxgl.dsl.FXGL.*;
+import javafx.geometry.Point2D;
 
 public class CulebritaLogic extends Component {
 

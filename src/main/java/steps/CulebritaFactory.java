@@ -8,6 +8,7 @@ import com.almasb.fxgl.entity.EntityFactory;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.multiplayer.NetworkComponent;
+
 import component.CulebritaLogic;
 import javafx.geometry.Point2D;
 
@@ -16,6 +17,8 @@ public class CulebritaFactory implements EntityFactory {
     public enum EntityType {
         JUGADOR, COLA, COMIDA, MURO, BOSQUE
     }
+
+    
 
     @Spawns("cuerpito")
     public Entity crearCuerpo(SpawnData data) {
