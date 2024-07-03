@@ -1,7 +1,6 @@
 package steps;
 
 import java.util.Map;
-
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
 import com.almasb.fxgl.core.math.FXGLMath;
@@ -65,8 +64,7 @@ public class Hooks extends GameApplication {
     @Override
     protected void initGameVars(Map<String, Object> vars) {
         vars.put("puntosNeko", 0);
-        vars.put("puntosPikachu", 0);
-        
+        vars.put("puntosPikachu", 0); 
     }
 
     @Override
@@ -129,18 +127,16 @@ public class Hooks extends GameApplication {
         jugador2 = spawn("jugador2", data);
         getService(MultiplayerService.class).spawn(conexion, jugador2, "jugador2");
 
-
         getService(MultiplayerService.class).addInputReplicationReceiver(conexion, clientInput);
         // inicializa las colisiones
         initCollisions();
-
     }
 
     private void onClient() {
         // solo para que no falle
         jugador1 = new Entity();
         jugador1.addComponent(new CulebritaLogic());
-
+        
         getService(MultiplayerService.class).addEntityReplicationReceiver(conexion, getGameWorld());
         getService(MultiplayerService.class).addInputReplicationSender(conexion, getInput());
     }
@@ -154,12 +150,16 @@ public class Hooks extends GameApplication {
             //getAudioPlayer().playSound(comer);
             comida.setPosition(FXGLMath.random(90, 1250), FXGLMath.random(60, 600));
             data = new SpawnData();
-            data.put("ubicacion", jugador2.getPosition());
-            jugador2.getComponent(CulebritaLogic.class).crecer(data, conexion);
             if (jugador == jugador2) {
+                data.put("ubicacion", jugador2.getPosition());
+                jugador2.getComponent(CulebritaLogic.class).crecer(data, conexion);
                 getWorldProperties().increment("puntosPikachu", +1);
+                
             } else {
+                data.put("ubicacion", jugador1.getPosition());
+                jugador1.getComponent(CulebritaLogic.class).crecer(data, conexion);
                 getWorldProperties().increment("puntosNeko", +1);
+                
             }
         });
 
@@ -186,7 +186,7 @@ public class Hooks extends GameApplication {
                 jugador1.getComponent(CulebritaLogic.class).respawnear();
                 getWorldProperties().increment("puntosNeko", -1);
             }
-        });
+        });    
     }
 
     @Override
@@ -246,7 +246,6 @@ public class Hooks extends GameApplication {
         });
     }
 
-
     @Override
     protected void onUpdate(double tpf) {
         if (isServer) {
@@ -254,3 +253,4 @@ public class Hooks extends GameApplication {
         }
     }
 }
+
