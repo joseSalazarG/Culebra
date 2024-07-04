@@ -15,10 +15,8 @@ import javafx.geometry.Point2D;
 public class CulebritaFactory implements EntityFactory {
 
     public enum EntityType {
-        JUGADOR, COLA, COMIDA, MURO, BOSQUE
+        JUGADOR, COLA, COMIDA, MURO, BOSQUE, TEXTO
     }
-
-    
 
     @Spawns("cuerpito")
     public Entity crearCuerpo(SpawnData data) {
