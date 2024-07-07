@@ -4,11 +4,15 @@ import java.util.Map;
 
 import com.almasb.fxgl.app.GameApplication;
 import com.almasb.fxgl.app.GameSettings;
+import com.almasb.fxgl.audio.Sound;
 import com.almasb.fxgl.core.math.FXGLMath;
 import com.almasb.fxgl.core.serialization.Bundle;
 import com.almasb.fxgl.dsl.FXGL;
+import static com.almasb.fxgl.dsl.FXGL.getAssetLoader;
+import static com.almasb.fxgl.dsl.FXGL.getAudioPlayer;
 import static com.almasb.fxgl.dsl.FXGL.getDialogService;
 import static com.almasb.fxgl.dsl.FXGL.getExecutor;
+import static com.almasb.fxgl.dsl.FXGL.getGameScene;
 import static com.almasb.fxgl.dsl.FXGL.getGameWorld;
 import static com.almasb.fxgl.dsl.FXGL.getInput;
 import static com.almasb.fxgl.dsl.FXGL.getNetService;
@@ -30,12 +34,11 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
-import lombok.extern.log4j.Log4j2;
 import static steps.CulebritaFactory.EntityType.COMIDA;
 import static steps.CulebritaFactory.EntityType.JUGADOR;
 import static steps.CulebritaFactory.EntityType.MURO;
 
-@Log4j2
+
 public class Hooks extends GameApplication {
 
     private Entity jugador1;
@@ -44,6 +47,7 @@ public class Hooks extends GameApplication {
     public SpawnData data;
     private final int anchoPantalla = 1400;
     private final int altoPantalla = 700;
+    CulebritaFactory cola = new CulebritaFactory();
     
 
     //multiplayer
@@ -110,6 +114,9 @@ public class Hooks extends GameApplication {
         Entity comida = spawn("comida");
         getService(MultiplayerService.class).spawn(conexion, comida, "comida");
 
+        comida = spawn("comida2");
+        getService(MultiplayerService.class).spawn(conexion, comida, "comida2");
+
         Entity muro = spawn("muroSuperior");
         getService(MultiplayerService.class).spawn(conexion, muro, "muroSuperior");
         muro = spawn("muroInferior");
@@ -124,12 +131,11 @@ public class Hooks extends GameApplication {
         jugador1 = spawn("jugador1", data);
         getService(MultiplayerService.class).spawn(conexion, jugador1, "jugador1");
  
-
         // genera al jugador 2
         data = new SpawnData(500, 500);
         jugador2 = spawn("jugador2", data);
         getService(MultiplayerService.class).spawn(conexion, jugador2, "jugador2");
-
+        
         getService(MultiplayerService.class).addInputReplicationReceiver(conexion, clientInput);
         // inicializa las colisiones
         initCollisions();
@@ -142,67 +148,90 @@ public class Hooks extends GameApplication {
         
         getService(MultiplayerService.class).addEntityReplicationReceiver(conexion, getGameWorld());
         getService(MultiplayerService.class).addInputReplicationSender(conexion, getInput());
+        getService(MultiplayerService.class).addPropertyReplicationReceiver(conexion, getWorldProperties());
     }
 
     private void initCollisions() {
-        // Sound comer = getAssetLoader().loadSound("necoarc.mp3");
-        // Sound morir = getAssetLoader().loadSound("muerte.mp3");
+        Sound comer = getAssetLoader().loadSound("necoarc.mp3");
+        Sound morir = getAssetLoader().loadSound("muerte.mp3");
+        Sound pikadeath = getAssetLoader().loadSound("pikadeath.mp3");
+        Sound pikacomer = getAssetLoader().loadSound("pikacomer.mp3");
         //colision con comida
-       
-
-
+  
         FXGL.onCollisionBegin(JUGADOR, COMIDA, (jugador, comida) -> {
-            //getAudioPlayer().playSound(comer);
             comida.setPosition(FXGLMath.random(90, 1250), FXGLMath.random(60, 600));
             data = new SpawnData();
-            // int puntajePikachu = getWorldProperties().getInt("puntosPikachu");
-            // int puntajeNeko = getWorldProperties().getInt("puntosNeko");
+            int puntajePikachu = getWorldProperties().getInt("puntosPikachu");
+            int puntajeNeko = getWorldProperties().getInt("puntosNeko");
+            getService(MultiplayerService.class).addPropertyReplicationSender(conexion, getWorldProperties());
             
             if (jugador == jugador2) {
                 data.put("ubicacion", jugador2.getPosition());
-                jugador2.getComponent(CulebritaLogic.class).crecer(data, conexion);
+                jugador2.getComponent(CulebritaLogic.class).crecer2(data, conexion);
                 getWorldProperties().increment("puntosPikachu", +1);
+                getAudioPlayer().playSound(pikacomer);
                 
+                if (puntajePikachu >= 10) {
+                    getDialogService().showMessageBox("!Jugador pikachu ha ganado!");
+                    
+                }
             } 
             else {
                 data.put("ubicacion", jugador1.getPosition());
                 jugador1.getComponent(CulebritaLogic.class).crecer(data, conexion);
                 getWorldProperties().increment("puntosNeko", +1);
-                
+                getAudioPlayer().playSound(comer);
+                if (puntajeNeko >= 10) {
+                    getDialogService().showMessageBox("!Jugador Neko ha ganado!");
+                }  
             }
+           
         });
 
         // la muerte de la culebrita
         FXGL.onCollisionBegin(JUGADOR, MURO, (jugador, muro) -> {
-            //getAudioPlayer().playSound(morir);
             if (jugador == jugador2) {
                 jugador2.getComponent(CulebritaLogic.class).respawnear();
                 getWorldProperties().increment("puntosPikachu", -1);
+                getAudioPlayer().playSound(pikadeath);
             } else {
                 jugador1.getComponent(CulebritaLogic.class).respawnear();
                 getWorldProperties().increment("puntosNeko", -1);
+                getAudioPlayer().playSound(morir);
             }
         });
 
         //colision entre jugadores
         FXGL.onCollisionBegin(JUGADOR, JUGADOR, (jugador, jugador2) -> {
-            //getAudioPlayer().playSound(morir);
             if (jugador == jugador2) {
                 jugador2.getComponent(CulebritaLogic.class).respawnear();
                 getWorldProperties().increment("puntosPikachu", -1);
+                getAudioPlayer().playSound(pikadeath);
             } else {
                 jugador1.getComponent(CulebritaLogic.class).respawnear();
                 getWorldProperties().increment("puntosNeko", -1);
+                getAudioPlayer().playSound(morir);
             }
         });  
     }
+
+  
 
     @Override
     protected void initUI() {
         Text puntosJugador1 = getUIFactoryService().newText("", Color.BLACK, 22);
         Text puntosJugador2 = getUIFactoryService().newText("", Color.BLACK, 22);
+
+        puntosJugador1.setTranslateX(50);
+        puntosJugador1.setTranslateY(50);
+
+        puntosJugador2.setTranslateX(1350);
+        puntosJugador2.setTranslateY(50);
+
         puntosJugador1.textProperty().bind(getWorldProperties().intProperty("puntosNeko").asString());
         puntosJugador2.textProperty().bind(getWorldProperties().intProperty("puntosPikachu").asString());
+
+        getGameScene().addUINodes(puntosJugador1, puntosJugador2);
     }
 
     //mueve al jugador

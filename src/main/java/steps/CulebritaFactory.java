@@ -18,17 +18,6 @@ public class CulebritaFactory implements EntityFactory {
         JUGADOR, COLA, COMIDA, MURO, BOSQUE, TEXTO
     }
 
-    @Spawns("cuerpito")
-    public Entity crearCuerpo(SpawnData data) {
-        return entityBuilder(data)
-                .type(EntityType.COLA)
-                //TODO REVISAR ESTO
-                .viewWithBBox(texture("neko.png", 40, 40))
-                .collidable()
-                .with(new NetworkComponent())
-                .build();
-    }
-
     @Spawns("jugador1")
     public Entity nuevoJugador(SpawnData data) {
         return entityBuilder(data)
@@ -53,12 +42,34 @@ public class CulebritaFactory implements EntityFactory {
                 .build();
     }
 
+    @Spawns("cuerpito")
+    public Entity crearCuerpo(SpawnData data) {
+        return entityBuilder(data)
+                .type(EntityType.COLA)
+                .viewWithBBox(texture("neko.png", 40, 40))
+                .collidable()
+                .with(new NetworkComponent())
+                .build();
+    }
+
     @Spawns("cola")
     public Entity agregarCola(SpawnData data) {
         return entityBuilder(data)
                 .at((Point2D) data.get("ubicacion"))
                 .type(EntityType.COLA)
                 .viewWithBBox(texture("neko.png", 40, 40))
+                .collidable()
+                .with(new AutoRotationComponent())
+                .with(new NetworkComponent())
+                .build();
+    }
+
+    @Spawns("cola2")
+    public Entity agregarCola2(SpawnData data) {
+        return entityBuilder(data)
+                .at((Point2D) data.get("ubicacion"))
+                .type(EntityType.COLA)
+                .viewWithBBox(texture("pikachu.png", 40, 40))
                 .collidable()
                 .with(new AutoRotationComponent())
                 .with(new NetworkComponent())
@@ -94,6 +105,7 @@ public class CulebritaFactory implements EntityFactory {
                 .viewWithBBox(texture("sq.png", 30, 30))
                 .collidable()
                 .with(new AutoRotationComponent())
+                .with(new NetworkComponent())
                 .build();
    }
 

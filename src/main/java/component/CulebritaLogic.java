@@ -74,7 +74,7 @@ public class CulebritaLogic extends Component {
         // y agregamos la cabeza
         cuerpo.add(entity);
         // y la movemos a la posicion inicial de nuevo
-        // TODO: cambiar a la posicion inicial
+  
         entity.setPosition(150, 150);
     }
 
@@ -84,6 +84,19 @@ public class CulebritaLogic extends Component {
         //data.put("ubicacion", lastBodyPart.getPosition());
 
         var body = spawn("cola", data);
+        body.translate(direction.multiply(-40));
+
+        //getService(MultiplayerService.class).spawn(conexion, body, "cola");
+
+        cuerpo.add(body);
+    }
+
+    public void crecer2(SpawnData data, Connection<Bundle> conexion) {
+
+        //var lastBodyPart = cuerpo.get(cuerpo.size() - 1);
+        //data.put("ubicacion", lastBodyPart.getPosition());
+
+        var body = spawn("cola2", data);
         body.translate(direction.multiply(-40));
 
         //getService(MultiplayerService.class).spawn(conexion, body, "cola");
