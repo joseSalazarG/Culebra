@@ -172,7 +172,7 @@ public class Hooks extends GameApplication {
                 getAudioPlayer().playSound(pikacomer);
                 
                 if (puntajePikachu >= 10) {
-                    getDialogService().showMessageBox("!Jugador pikachu ha ganado!", () -> {
+                    getDialogService().showMessageBox("!Jugador Pikachu ha ganado!", () -> {
                         //getGameController().exit();
                     });
                     
