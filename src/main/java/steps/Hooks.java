@@ -47,9 +47,7 @@ public class Hooks extends GameApplication {
     public SpawnData data;
     private final int anchoPantalla = 1400;
     private final int altoPantalla = 700;
-    CulebritaFactory cola = new CulebritaFactory();
     
-
     //multiplayer
     private Connection<Bundle> conexion;
     //private Server<Bundle> server;
@@ -101,6 +99,7 @@ public class Hooks extends GameApplication {
 
                     System.out.println("Cliente conectado");
                     client.connectAsync();
+                    
                 }
             });
         }, Duration.seconds(0.001));
@@ -172,7 +171,9 @@ public class Hooks extends GameApplication {
                 getAudioPlayer().playSound(pikacomer);
                 
                 if (puntajePikachu >= 10) {
-                    getDialogService().showMessageBox("!Jugador pikachu ha ganado!");
+                    getDialogService().showMessageBox("!Jugador pikachu ha ganado!", () -> {
+                        //getGameController().exit();
+                    });
                     
                 }
             } 
@@ -182,10 +183,11 @@ public class Hooks extends GameApplication {
                 getWorldProperties().increment("puntosNeko", +1);
                 getAudioPlayer().playSound(comer);
                 if (puntajeNeko >= 10) {
-                    getDialogService().showMessageBox("!Jugador Neko ha ganado!");
+                    getDialogService().showMessageBox("!Jugador Neko ha ganado!", () -> {
+                        //getGameController().exit();
+                    });
                 }  
             }
-           
         });
 
         // la muerte de la culebrita
@@ -214,8 +216,6 @@ public class Hooks extends GameApplication {
             }
         });  
     }
-
-  
 
     @Override
     protected void initUI() {
