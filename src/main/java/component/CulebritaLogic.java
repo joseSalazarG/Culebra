@@ -92,7 +92,7 @@ public class CulebritaLogic extends Component {
         var body = spawn("cola2", data);
         body.translate(direction.multiply(-40));
 
-        getService(MultiplayerService.class).spawn(conexion, body, "cola");
+        getService(MultiplayerService.class).spawn(conexion, body, "cola2");
 
         cuerpo.add(body);
     }

@@ -37,6 +37,8 @@ import javafx.util.Duration;
 import static steps.CulebritaFactory.EntityType.COMIDA;
 import static steps.CulebritaFactory.EntityType.JUGADOR;
 import static steps.CulebritaFactory.EntityType.MURO;
+import static steps.CulebritaFactory.EntityType.COLA;
+import static steps.CulebritaFactory.EntityType.COLA2;
 
 
 public class Hooks extends GameApplication {
@@ -155,8 +157,8 @@ public class Hooks extends GameApplication {
         Sound morir = getAssetLoader().loadSound("muerte.mp3");
         Sound pikadeath = getAssetLoader().loadSound("pikadeath.mp3");
         Sound pikacomer = getAssetLoader().loadSound("pikacomer.mp3");
+
         //colision con comida
-  
         FXGL.onCollisionBegin(JUGADOR, COMIDA, (jugador, comida) -> {
             comida.setPosition(FXGLMath.random(90, 1250), FXGLMath.random(60, 600));
             data = new SpawnData();
@@ -212,7 +214,24 @@ public class Hooks extends GameApplication {
                 getWorldProperties().increment("puntosNeko", -1);
                 getAudioPlayer().playSound(morir);
             }
-        });  
+        });
+
+        //colision entre jugador y cola
+        FXGL.onCollisionBegin(JUGADOR, COLA2, (jugador, cola) -> {
+            if (jugador == jugador1) {
+                jugador1.getComponent(CulebritaLogic.class).respawnear();
+                getWorldProperties().increment("puntosNeko", -1);
+                getAudioPlayer().playSound(morir);
+            }
+        });
+
+        FXGL.onCollisionBegin(JUGADOR, COLA, (jugador, cola) -> {
+            if (jugador == jugador2) {
+                jugador2.getComponent(CulebritaLogic.class).respawnear();
+                getWorldProperties().increment("puntosPikachu", -1);
+                getAudioPlayer().playSound(pikadeath);
+            }
+        });
     }
 
     @Override

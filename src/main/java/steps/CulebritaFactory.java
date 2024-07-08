@@ -10,12 +10,11 @@ import com.almasb.fxgl.entity.Spawns;
 import com.almasb.fxgl.multiplayer.NetworkComponent;
 
 import component.CulebritaLogic;
-import javafx.geometry.Point2D;
 
 public class CulebritaFactory implements EntityFactory {
 
     public enum EntityType {
-        JUGADOR, COLA, COMIDA, MURO, BOSQUE, TEXTO
+        JUGADOR, COLA, COLA2, COMIDA, MURO, BOSQUE, TEXTO
     }
 
     @Spawns("jugador1")
@@ -55,7 +54,6 @@ public class CulebritaFactory implements EntityFactory {
     @Spawns("cola")
     public Entity agregarCola(SpawnData data) {
         return entityBuilder(data)
-                //.at((Point2D) data.get("ubicacion"))
                 .type(EntityType.COLA)
                 .viewWithBBox(texture("neko.png", 40, 40))
                 .collidable()
@@ -67,8 +65,7 @@ public class CulebritaFactory implements EntityFactory {
     @Spawns("cola2")
     public Entity agregarCola2(SpawnData data) {
         return entityBuilder(data)
-                //.at((Point2D) data.get("ubicacion"))
-                .type(EntityType.COLA)
+                .type(EntityType.COLA2)
                 .viewWithBBox(texture("pikachu.png", 40, 40))
                 .collidable()
                 .with(new AutoRotationComponent())
