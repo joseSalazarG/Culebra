@@ -55,7 +55,7 @@ public class CulebritaFactory implements EntityFactory {
     @Spawns("cola")
     public Entity agregarCola(SpawnData data) {
         return entityBuilder(data)
-                .at((Point2D) data.get("ubicacion"))
+                //.at((Point2D) data.get("ubicacion"))
                 .type(EntityType.COLA)
                 .viewWithBBox(texture("neko.png", 40, 40))
                 .collidable()
@@ -67,7 +67,7 @@ public class CulebritaFactory implements EntityFactory {
     @Spawns("cola2")
     public Entity agregarCola2(SpawnData data) {
         return entityBuilder(data)
-                .at((Point2D) data.get("ubicacion"))
+                //.at((Point2D) data.get("ubicacion"))
                 .type(EntityType.COLA)
                 .viewWithBBox(texture("pikachu.png", 40, 40))
                 .collidable()

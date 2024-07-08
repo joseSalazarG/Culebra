@@ -19,7 +19,7 @@
     <lombok.version>1.18.30</lombok.version>
   </properties>
 
-  <!-- FXGL Plugin -->
+  <!-- dependencies -->
   <dependencies>
       <dependency>
         <groupId>com.github.almasb</groupId>
@@ -31,6 +31,13 @@
       <artifactId>lombok</artifactId>
       <version>1.18.30</version>
       <scope>provided</scope>
+    </dependency>
+
+    <!-- JavaFX -->
+    <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx-controls</artifactId>
+      <version>22</version>
     </dependency>
 
     <!-- Logging -->
@@ -66,5 +73,7 @@
     </dependency>
 
   </dependencies>
+
+
 
 </project>

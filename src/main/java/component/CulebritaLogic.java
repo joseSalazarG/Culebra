@@ -9,6 +9,9 @@ import com.almasb.fxgl.entity.Entity;
 import com.almasb.fxgl.entity.SpawnData;
 import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.net.Connection;
+import static com.almasb.fxgl.dsl.FXGL.getService;
+import com.almasb.fxgl.multiplayer.MultiplayerService;
+import com.almasb.fxgl.net.Connection;
 
 import javafx.geometry.Point2D;
 
@@ -79,27 +82,17 @@ public class CulebritaLogic extends Component {
     }
 
     public void crecer(SpawnData data, Connection<Bundle> conexion) {
-
-        //var lastBodyPart = cuerpo.get(cuerpo.size() - 1);
-        //data.put("ubicacion", lastBodyPart.getPosition());
-
         var body = spawn("cola", data);
         body.translate(direction.multiply(-40));
-
-        //getService(MultiplayerService.class).spawn(conexion, body, "cola");
-
         cuerpo.add(body);
     }
 
     public void crecer2(SpawnData data, Connection<Bundle> conexion) {
 
-        //var lastBodyPart = cuerpo.get(cuerpo.size() - 1);
-        //data.put("ubicacion", lastBodyPart.getPosition());
-
         var body = spawn("cola2", data);
         body.translate(direction.multiply(-40));
 
-        //getService(MultiplayerService.class).spawn(conexion, body, "cola");
+        getService(MultiplayerService.class).spawn(conexion, body, "cola");
 
         cuerpo.add(body);
     }

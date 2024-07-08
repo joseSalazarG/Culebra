@@ -165,7 +165,6 @@ public class Hooks extends GameApplication {
             getService(MultiplayerService.class).addPropertyReplicationSender(conexion, getWorldProperties());
             
             if (jugador == jugador2) {
-                data.put("ubicacion", jugador2.getPosition());
                 jugador2.getComponent(CulebritaLogic.class).crecer2(data, conexion);
                 getWorldProperties().increment("puntosPikachu", +1);
                 getAudioPlayer().playSound(pikacomer);
@@ -178,7 +177,6 @@ public class Hooks extends GameApplication {
                 }
             } 
             else {
-                data.put("ubicacion", jugador1.getPosition());
                 jugador1.getComponent(CulebritaLogic.class).crecer(data, conexion);
                 getWorldProperties().increment("puntosNeko", +1);
                 getAudioPlayer().playSound(comer);
@@ -257,19 +255,19 @@ public class Hooks extends GameApplication {
         //JUGADOR 2
         clientInput = new Input();
 
-        onKeyBuilder(clientInput, KeyCode.A).onAction(() -> {
+        onKeyBuilder(clientInput, KeyCode.LEFT).onAction(() -> {
             jugador2.getComponent(CulebritaLogic.class).izquierda();
         });
 
-        onKeyBuilder(clientInput, KeyCode.D).onAction(() -> {
+        onKeyBuilder(clientInput, KeyCode.RIGHT).onAction(() -> {
             jugador2.getComponent(CulebritaLogic.class).derecha();
         });
 
-        onKeyBuilder(clientInput, KeyCode.W).onAction(() -> {
+        onKeyBuilder(clientInput, KeyCode.UP).onAction(() -> {
             jugador2.getComponent(CulebritaLogic.class).arriba();
         });
 
-        onKeyBuilder(clientInput, KeyCode.S).onAction(() -> {
+        onKeyBuilder(clientInput, KeyCode.DOWN).onAction(() -> {
             jugador2.getComponent(CulebritaLogic.class).abajo();
         });
     }
