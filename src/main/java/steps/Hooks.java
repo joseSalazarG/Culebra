@@ -52,8 +52,6 @@ public class Hooks extends GameApplication {
     
     //multiplayer
     private Connection<Bundle> conexion;
-    //private Server<Bundle> server;
-    //public Client<Bundle> client
     private boolean isServer;
     
 
@@ -179,7 +177,7 @@ public class Hooks extends GameApplication {
                 }
             } 
             else {
-                jugador1.getComponent(CulebritaLogic.class).crecer(data, conexion);
+                jugador1.getComponent(CulebritaLogic.class).crecer(data);
                 getWorldProperties().increment("puntosNeko", +1);
                 getAudioPlayer().playSound(comer);
                 if (puntajeNeko >= 10) {

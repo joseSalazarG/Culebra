@@ -11,8 +11,6 @@ import com.almasb.fxgl.entity.component.Component;
 import com.almasb.fxgl.net.Connection;
 import static com.almasb.fxgl.dsl.FXGL.getService;
 import com.almasb.fxgl.multiplayer.MultiplayerService;
-import com.almasb.fxgl.net.Connection;
-
 import javafx.geometry.Point2D;
 
 public class CulebritaLogic extends Component {
@@ -34,7 +32,7 @@ public class CulebritaLogic extends Component {
         entity.setProperty("prevPos", entity.getPosition());
         // separacion de los gatos y cantidad de pixeles que se mueven
         entity.translate(direction.multiply(40));
-
+        // esta parte se encarga de que la cola siga a la cabeza
         for (int i = 1; i < cuerpo.size(); i++) {
             var prevPart = cuerpo.get(i - 1);
             var part = cuerpo.get(i);
@@ -81,7 +79,7 @@ public class CulebritaLogic extends Component {
         entity.setPosition(150, 150);
     }
 
-    public void crecer(SpawnData data, Connection<Bundle> conexion) {
+    public void crecer(SpawnData data) {
         var body = spawn("cola", data);
         body.translate(direction.multiply(-40));
         cuerpo.add(body);
